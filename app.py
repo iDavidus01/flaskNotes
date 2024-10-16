@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-import requests
 
 app = Flask(__name__)
 CORS(app)
 
-FILES_DIR = './notes/'  
+FILES_DIR = './notes/'
 
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
@@ -39,6 +38,6 @@ def get_notes():
     notes = [note.replace(".txt", "") for note in notes if os.path.isfile(os.path.join(FILES_DIR, note))]
     return jsonify({"notes": notes})
 
-
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get('PORT', 5000)) 
+    app.run(host="0.0.0.0", port=port)
